@@ -1,0 +1,55 @@
+<resources>
+    <string name="app_name">CapitalSocial</string>
+
+    <string name="inicia_sesion">Inicia Sesión con Facebook</string>
+    <string name="ingresa">o ingresa tu correo y tu contraseña</string>
+    <string name="usuario">Usuario</string>
+    <string name="mail">Correo electrónico</string>
+    <string name="password">Contraseña</string>
+    <string name="err_mail">Ingresa un mail valido</string>
+    <string name="err_password">Ingresa tu password</string>
+
+    <string name="mostrar">Mostrar</string>
+    <string name="ocultar">Ocultar</string>
+    <string name="ingresar">Ingresar</string>
+    <string name="registrar">Ingresa con tu teléfono</string>
+    <string name="sin_password"><u>Ingresa con tu mail</u></string>
+    <string name="title_activity_promociones">PromocionesActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="papa_johns">Papa John\'s</string>
+    <string name="idea_interior">Idea Interior</string>
+    <string name="burguer_king">Burguer King</string>
+    <string name="farmacias_benavides">Farmacias Benavides</string>
+    <string name="el_tizoncito">El Tizoncito</string>
+    <string name="chillis">Chilli\'s</string>
+    <string name="zona_fitness">Zona Fitness</string>
+    <string name="cinepolis">Cinépolis</string>
+    <string name="wingstop">Wingstop</string>
+    <string name="italiannis">Italianni\'s</string>
+
+    <string name="contenido_papa_johns">20% en pizzas grandes y extragrandes</string>
+    <string name="contenido_idea_interior">Obten 3% en tu compra total</string>
+    <string name="contenido_burguer_king">¡Café americano chico GRATIS!</string>
+    <string name="contenido_farmacias_benavides">10% en medicamentos genéricos</string>
+    <string name="contenido_el_tizoncito">2x1 en ¡Ah Dorados!</string>
+    <string name="contenido_chillis">Ahorra 10% en el total de tu cuenta</string>
+    <string name="contenido_zona_fitness">Precio especial en tu anualidad</string>
+    <string name="contenido_cinepolis">¡GRATIS una entrada cada mes!</string>
+    <string name="contenido_wingstop">$50 de descuento en la compra de $250</string>
+    <string name="contenido_italiannis">Ahorra 10% en el total de tu cuenta</string>
+    <string name="title_activity_detalle_promocion">DetallePromocionActivity</string>
+
+    <string name="detalle_papa_johns">"Validas en pizzas de Especialidad en sucursales del DF"
+        "y área metropolitana (a excepción de sucursal Granja Las Américas).\n\n"
+        "Promoción válida en la compra de pizzas a precio de menú."
+        "No es válido en conjunto con otros cupones y/o descuentos."
+        "Mencionar la clave: PAGA01 al realizar el pedido de los precios, participación"
+        "y zonas de entrega a domicilio pueden variar.\n\n"
+    </string>
+
+</resources>
