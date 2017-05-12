@@ -2,9 +2,9 @@ package com.example.mauriciogodinez.splashtest;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.design.widget.NavigationView;
@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.facebook.Profile;
@@ -30,16 +31,20 @@ import com.facebook.login.LoginManager;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
+
 import java.util.Locale;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class PromocionesActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, PromocionesAdapter.ListItemClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        PromocionesAdapter.ListItemClickListener {
 
     private Toast mToast;
     ProfileTracker profileTracker;
+    PromocionesAdapter mAdapter;
+    ArrayList<PromocionesItem> mArrayList;
+    ArrayList<PromocionesItem> mListIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,14 +72,15 @@ public class PromocionesActivity extends AppCompatActivity
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        RecyclerView.Adapter mAdapter = new PromocionesAdapter(createListPromo(), this);
+        mArrayList = createListPromo();
+        mListIntent = mArrayList;
+        mAdapter = new PromocionesAdapter(mArrayList, this);
         mRecyclerView.setAdapter(mAdapter);
-
 
 
         profileTracker = new ProfileTracker() {
             @Override
-            protected void onCurrentProfileChanged (Profile oldProfile, Profile currentProfile) {
+            protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
                 if (currentProfile != null) {
                     displayProfileInfo(currentProfile);
                 }
@@ -87,13 +93,11 @@ public class PromocionesActivity extends AppCompatActivity
             Profile currentProfile = Profile.getCurrentProfile();
             if (currentProfile != null) {
                 displayProfileInfo(currentProfile);
-            }
-            else {
+            } else {
                 // Fetch the profile, which will trigger the onCurrentProfileChanged receiver
                 Profile.fetchProfileForCurrentAccessToken();
             }
-        }
-        else {
+        } else {
             // Otherwise, get Account Kit login information
             AccountKit.getCurrentAccount(new AccountKitCallback<Account>() {
                 @Override
@@ -107,8 +111,7 @@ public class PromocionesActivity extends AppCompatActivity
                         String formattedPhoneNumber = formatPhoneNumber(phoneNumber.toString());
                         mToast = Toast.makeText(PromocionesActivity.this, accountKitId + formattedPhoneNumber, Toast.LENGTH_LONG);
                         mToast.show();
-                    }
-                    else {
+                    } else {
                         // if the email address is available, display it
                         String emailString = account.getEmail();
                         mToast = Toast.makeText(PromocionesActivity.this, accountKitId + emailString, Toast.LENGTH_LONG);
@@ -144,7 +147,7 @@ public class PromocionesActivity extends AppCompatActivity
         mToast = Toast.makeText(PromocionesActivity.this, profileId + name, Toast.LENGTH_LONG);
         mToast.show();
 
-        // display the profile picture
+//        display the profile picture
 //        Uri profilePicUri = profile.getProfilePictureUri(100, 100);
 //        displayProfilePic(profilePicUri);
     }
@@ -161,8 +164,7 @@ public class PromocionesActivity extends AppCompatActivity
             PhoneNumberUtil pnu = PhoneNumberUtil.getInstance();
             Phonenumber.PhoneNumber pn = pnu.parse(phoneNumber, Locale.getDefault().getCountry());
             phoneNumber = pnu.format(pn, PhoneNumberUtil.PhoneNumberFormat.NATIONAL);
-        }
-        catch (NumberParseException e) {
+        } catch (NumberParseException e) {
             e.printStackTrace();
         }
         return phoneNumber;
@@ -182,6 +184,37 @@ public class PromocionesActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.promociones, menu);
+
+        MenuItem search = menu.findItem(R.id.search);
+        search.collapseActionView();
+        final android.widget.SearchView searchView = (android.widget.SearchView) MenuItemCompat.getActionView(search);
+
+        searchView.setQueryHint(getString(R.string.search_hint));
+
+        searchView.setOnQueryTextListener(new android.widget.SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                newText = newText.toLowerCase();
+                ArrayList<PromocionesItem> promociones = new ArrayList<>();
+                for (PromocionesItem promocion : mArrayList) {
+                    String name = promocion.getTitleItem().toLowerCase();
+                    if (name.contains(newText)) {
+                        promociones.add(promocion);
+
+                    }
+                }
+                mAdapter.setFilter(promociones);
+                mListIntent = promociones;
+
+                return false;
+            }
+        });
+
         return true;
     }
 
@@ -231,9 +264,9 @@ public class PromocionesActivity extends AppCompatActivity
         return true;
     }
 
-    private List<PromocionesItem> createListPromo() {
+    private ArrayList<PromocionesItem> createListPromo() {
 
-        List<PromocionesItem> result = new ArrayList<>();
+        ArrayList<PromocionesItem> result = new ArrayList<>();
 
         result.add(new PromocionesItem(R.drawable.promopapajohns,
                 getResources().getString(R.string.papa_johns),
@@ -272,7 +305,10 @@ public class PromocionesActivity extends AppCompatActivity
     @Override
     public void onListItemClick(int clickedItemIndex, String text) {
         Context vhContext = getApplicationContext();
-        if(mToast != null){
+        PromocionesItem imagen = mListIntent.get(clickedItemIndex);
+        Integer drawableImage = imagen.getImagenItem();
+
+        if (mToast != null) {
             mToast.cancel();
         }
 
@@ -280,6 +316,7 @@ public class PromocionesActivity extends AppCompatActivity
         mToast.show();
 
         Intent detalle = new Intent(getBaseContext(), DetallePromocionActivity.class);
+        detalle.putExtra("imagen", drawableImage);
         startActivity(detalle);
 
     }

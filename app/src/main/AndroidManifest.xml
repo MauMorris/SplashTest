@@ -59,7 +59,9 @@
         <activity
             android:name=".PromocionesActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+
         <activity
             android:name=".DetallePromocionActivity"
             android:label="@string/app_name"

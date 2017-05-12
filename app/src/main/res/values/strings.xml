@@ -20,6 +20,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="search">Buscar</string>
 
     <string name="papa_johns">Papa John\'s</string>
     <string name="idea_interior">Idea Interior</string>
@@ -51,5 +52,10 @@
         "Mencionar la clave: PAGA01 al realizar el pedido de los precios, participación"
         "y zonas de entrega a domicilio pueden variar.\n\n"
     </string>
+
+    <string name="search_hint">Buscar…</string>
+    <string name="ACCOUNT_KIT_CLIENT_TOKEN">bae245e567b92e0348c775831efbcf79</string>
+    <string name="ak_login_protocol_scheme">ak192684641243187</string>
+    <string name="facebook_app_id">192684641243187</string>
 
 </resources>

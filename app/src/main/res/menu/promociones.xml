@@ -9,8 +9,7 @@
 
     <item android:id="@+id/search"
         android:title="Buscar"
-        android:icon="@drawable/iconobusqueda"
+        android:icon="@drawable/ic_menu_search_white"
         app:showAsAction="collapseActionView|ifRoom"
-        android:actionViewClass="android.widget.SearchView" />
-
+        app:actionViewClass="android.widget.SearchView" />
 </menu>
