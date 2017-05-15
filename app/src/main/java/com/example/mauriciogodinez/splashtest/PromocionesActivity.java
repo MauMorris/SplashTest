@@ -304,7 +304,7 @@ public class PromocionesActivity extends AppCompatActivity
 
     @Override
     public void onListItemClick(int clickedItemIndex, String text) {
-        Context vhContext = getApplicationContext();
+        Context vhContext = PromocionesActivity.this;
         PromocionesItem imagen = mListIntent.get(clickedItemIndex);
         Integer drawableImage = imagen.getImagenItem();
 
@@ -315,7 +315,7 @@ public class PromocionesActivity extends AppCompatActivity
         mToast = Toast.makeText(vhContext, "click imagen " + text, Toast.LENGTH_SHORT);
         mToast.show();
 
-        Intent detalle = new Intent(getBaseContext(), DetallePromocionActivity.class);
+        Intent detalle = new Intent(vhContext, DetallePromocionActivity.class);
         detalle.putExtra("imagen", drawableImage);
         startActivity(detalle);
 

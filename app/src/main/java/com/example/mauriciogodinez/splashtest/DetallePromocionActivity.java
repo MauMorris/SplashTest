@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 public class DetallePromocionActivity extends AppCompatActivity implements View.OnClickListener {
@@ -44,8 +45,11 @@ public class DetallePromocionActivity extends AppCompatActivity implements View.
         toolbar.setNavigationIcon(R.drawable.ic_menu_back);
         setSupportActionBar(toolbar);
 
-        CollapsingToolbarLayout cp = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-        cp.setBackgroundResource(drawable);
+        ImageView iv = (ImageView) findViewById(R.id.app_bar_image_view);
+        iv.setImageResource(drawable);
+
+//        CollapsingToolbarLayout cp = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+//        cp.setBackgroundResource(drawable);
 
         fuse_view = findViewById(R.id.fuse_view);
 

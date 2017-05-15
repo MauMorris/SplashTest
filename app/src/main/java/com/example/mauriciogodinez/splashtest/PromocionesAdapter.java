@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class PromocionesAdapter extends RecyclerView.Adapter<PromocionesAdapter.ViewHolders> {
     private ArrayList<PromocionesItem> categoriaList;
 
-    final private PromocionesAdapter.ListItemClickListener mOnClickListener;
+    final private ListItemClickListener mOnClickListener;
 
     public interface ListItemClickListener {
         void onListItemClick(int clickedItemIndex, String text);
@@ -31,8 +31,8 @@ public class PromocionesAdapter extends RecyclerView.Adapter<PromocionesAdapter.
         return new PromocionesAdapter.ViewHolders(itemView);
     }
 
-    public PromocionesAdapter(ArrayList<PromocionesItem> categoriaList, PromocionesAdapter.ListItemClickListener listener) {
-        mOnClickListener = listener;
+    public PromocionesAdapter(ArrayList<PromocionesItem> categoriaList, ListItemClickListener listener) {
+        this.mOnClickListener = listener;
         this.categoriaList = categoriaList;
     }
 

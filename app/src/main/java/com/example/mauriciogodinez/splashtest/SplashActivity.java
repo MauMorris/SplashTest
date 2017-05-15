@@ -11,11 +11,22 @@ public class SplashActivity extends AppCompatActivity {
 
     private static final int UI_ANIMATION_DELAY = 2000;
     private final Handler mShowHandler = new Handler();
+    private MyIntent object;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        object = new MyIntent();
+        object.setOnStopListener(new MyIntent.MyIntentListener() {
+            @Override
+            public void finishedTime() {
+                Intent login = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(login);
+                finish();
+            }
+        });
     }
 
     @Override
@@ -30,9 +41,30 @@ public class SplashActivity extends AppCompatActivity {
         @SuppressLint("InlinedApi")
         @Override
         public void run() {
-            Intent login = new Intent(getApplicationContext(), LoginActivity.class);
-            startActivity(login);
-            finish();
+            object.stop();
         }
     };
+
+    private static class MyIntent{
+
+        interface MyIntentListener{
+            void finishedTime();
+        }
+
+        private MyIntentListener listener;
+
+        MyIntent(){
+            this.listener = null;
+        }
+
+        void stop(){
+            if(listener != null){
+                listener.finishedTime();
+            }
+        }
+
+        void setOnStopListener(MyIntentListener listener){
+            this.listener = listener;
+        }
+    }
 }

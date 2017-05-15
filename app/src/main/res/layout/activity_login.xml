@@ -164,7 +164,7 @@
 
     </LinearLayout>
 
-    <Button
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/button2"
         android:layout_width="0dp"
         android:layout_height="48dp"
@@ -175,13 +175,14 @@
         android:layout_marginTop="13dp"
         android:background="@color/colorPrimary"
         android:text="@string/ingresar"
+        android:foreground="?android:attr/selectableItemBackground"
         android:textAllCaps="false"
         android:textColor="@color/white"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
-    <Button
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/button3"
         android:layout_width="0dp"
         android:layout_height="48dp"
@@ -198,7 +199,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button2" />
 
-    <TextView
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/textViewIngresaMail"
         android:layout_width="173dp"
         android:layout_height="23dp"
@@ -212,6 +213,7 @@
         android:text="@string/sin_password"
         android:textColor="@color/colorPrimary"
         android:textSize="12sp"
+        android:background="?android:attr/selectableItemBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintLeft_toLeftOf="parent"
