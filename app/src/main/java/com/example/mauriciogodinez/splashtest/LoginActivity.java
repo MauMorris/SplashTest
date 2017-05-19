@@ -1,11 +1,18 @@
 package com.example.mauriciogodinez.splashtest;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.app.LoaderManager;
+import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
@@ -32,12 +39,16 @@ import com.facebook.login.widget.LoginButton;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<List<PagaTodo>> {
 
     private static final int APP_REQUEST_CODE = 1;
     CallbackManager callbackManager;
     boolean mo = false;
+    int PAGATODO_LOADER_ID = 1;
+    private static final String USGS_REQUEST_URL =
+            "https://agentemovil.pagatodo.com/AgenteMovil.svc/agMov/login";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,6 +157,24 @@ public class LoginActivity extends AppCompatActivity {
 
         }
         */
+        // Get a reference to the ConnectivityManager to check state of network connectivity
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        // Get details on the currently active default data network
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+        // If there is a network connection, fetch data
+        if (networkInfo != null && networkInfo.isConnected()) {
+            // Get a reference to the LoaderManager, in order to interact with loaders.
+            android.app.LoaderManager loaderManager = getLoaderManager();
+
+            // Initialize the loader. Pass in the int ID constant defined above and pass in null for
+            // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
+            // because this activity implements the LoaderCallbacks interface).
+            loaderManager.initLoader(PAGATODO_LOADER_ID, null, this);
+        }
+
     }
 
     @Override
@@ -195,4 +224,24 @@ public class LoginActivity extends AppCompatActivity {
     private void changeMo() {
         mo = !mo;
     }
+
+
+    @Override
+    public android.content.Loader<List<PagaTodo>> onCreateLoader(int id, Bundle args) {
+        Uri baseUri = Uri.parse(USGS_REQUEST_URL);
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+        return new LoginLoader(this, uriBuilder.toString());
+    }
+
+    @Override
+    public void onLoadFinished(android.content.Loader<List<PagaTodo>> loader, List<PagaTodo> data) {
+        if (data != null && !data.isEmpty()) {
+        }
+    }
+
+    @Override
+    public void onLoaderReset(android.content.Loader<List<PagaTodo>> loader) {
+
+    }
+
 }
