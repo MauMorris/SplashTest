@@ -1,9 +1,8 @@
-package com.example.mauriciogodinez.splashtest;
+package com.example.mauriciogodinez.splashtest.utils;
 
 import android.text.TextUtils;
 import android.util.Log;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -160,21 +159,16 @@ public class QueryUtils {
             for (int i = 0; i < baseJsonResponse.length(); i++) {
 
                 // Get a single PagaTodo at position i within the list of PagaTodos
-
                 // Extract the value for the key called "mag"
                 String agente = baseJsonResponse.getString("agente");
-
                 // Extract the value for the key called "place"
                 String error = baseJsonResponse.getString("error");
-
                 // Extract the value for the key called "time"
                 int id_user = baseJsonResponse.getInt("id_user");
-
                 // Extract the value for the key called "url"
                 String token = baseJsonResponse.getString("token");
 
                 PagaTodo PagaTodo = new PagaTodo(agente, error, id_user, token);
-
                 // Add the new {@link PagaTodo} to the list of PagaTodos.
                 PagaTodos.add(PagaTodo);
             }
@@ -186,5 +180,4 @@ public class QueryUtils {
         // Return the list of PagaTodos
         return PagaTodos;
     }
-
 }

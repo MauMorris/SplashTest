@@ -1,4 +1,4 @@
-package com.example.mauriciogodinez.splashtest;
+package com.example.mauriciogodinez.splashtest.ui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,9 +15,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
+import com.example.mauriciogodinez.splashtest.R;
+import com.example.mauriciogodinez.splashtest.datarecyclerview.PromocionesAdapter;
+import com.example.mauriciogodinez.splashtest.datarecyclerview.PromocionesItem;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.accountkit.Account;
@@ -36,35 +38,32 @@ import java.util.Locale;
 
 import java.util.ArrayList;
 
-public class PromocionesActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,
-        PromocionesAdapter.ListItemClickListener {
+public class PromocionesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, PromocionesAdapter.ListItemClickListener {
 
     private Toast mToast;
+
     ProfileTracker profileTracker;
+
     PromocionesAdapter mAdapter;
-    ArrayList<PromocionesItem> mArrayList;
-    ArrayList<PromocionesItem> mListIntent;
+
+    ArrayList<PromocionesItem> mArrayList, mListIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_promociones);
 
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
 
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.promociones_recyclerview);
         mRecyclerView.setHasFixedSize(true);
@@ -73,10 +72,11 @@ public class PromocionesActivity extends AppCompatActivity
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         mArrayList = createListPromo();
+
         mListIntent = mArrayList;
+
         mAdapter = new PromocionesAdapter(mArrayList, this);
         mRecyclerView.setAdapter(mAdapter);
-
 
         profileTracker = new ProfileTracker() {
             @Override
@@ -117,7 +117,6 @@ public class PromocionesActivity extends AppCompatActivity
                         mToast = Toast.makeText(PromocionesActivity.this, accountKitId + emailString, Toast.LENGTH_LONG);
                         mToast.show();
                     }
-
                 }
 
                 @Override
@@ -132,7 +131,6 @@ public class PromocionesActivity extends AppCompatActivity
     @Override
     public void onDestroy() {
         super.onDestroy();
-
         // unregister the profile tracker receiver
         profileTracker.stopTracking();
     }
@@ -140,16 +138,15 @@ public class PromocionesActivity extends AppCompatActivity
     private void displayProfileInfo(Profile profile) {
         // get Profile ID
         String profileId = profile.getId();
-
         // display the Profile name
         String name = profile.getName();
 
         mToast = Toast.makeText(PromocionesActivity.this, profileId + name, Toast.LENGTH_LONG);
         mToast.show();
 
-//        display the profile picture
-//        Uri profilePicUri = profile.getProfilePictureUri(100, 100);
-//        displayProfilePic(profilePicUri);
+        //display the profile picture
+        //Uri profilePicUri = profile.getProfilePictureUri(100, 100);
+        //displayProfilePic(profilePicUri);
     }
 
     private void launchLoginActivity() {
@@ -318,7 +315,5 @@ public class PromocionesActivity extends AppCompatActivity
         Intent detalle = new Intent(vhContext, DetallePromocionActivity.class);
         detalle.putExtra("imagen", drawableImage);
         startActivity(detalle);
-
     }
-
 }

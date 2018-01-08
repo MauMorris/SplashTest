@@ -1,6 +1,6 @@
-package com.example.mauriciogodinez.splashtest;
+package com.example.mauriciogodinez.splashtest.datarecyclerview;
 
-/**
+/*
  * Created by mauriciogodinez on 19/04/17.
  */
 

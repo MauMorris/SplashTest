@@ -1,32 +1,37 @@
 package com.example.mauriciogodinez.splashtest;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
+
+import com.example.mauriciogodinez.splashtest.constructor.MyIntentListener;
+import com.example.mauriciogodinez.splashtest.impl.MyIntentImpl;
+import com.example.mauriciogodinez.splashtest.ui.LoginActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
+    private static final String LOG_TAG = SplashActivity.class.getSimpleName();
+
     private static final int UI_ANIMATION_DELAY = 2000;
-    private final Handler mShowHandler = new Handler();
-    private MyIntent object;
+
+    private Handler mShowHandler;
+    private MyIntentImpl mCallback;
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        object = new MyIntent();
-        object.setOnStopListener(new MyIntent.MyIntentListener() {
-            @Override
-            public void finishedTime() {
-                Intent login = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(login);
-                finish();
-            }
-        });
+        mContext = SplashActivity.this;
+        mShowHandler = new Handler();
+        mCallback = new MyIntentImpl();
+
+        mCallback.setOnStartListener(startActivity);
     }
 
     @Override
@@ -37,34 +42,34 @@ public class SplashActivity extends AppCompatActivity {
         mShowHandler.postDelayed(mIntentRunnable, UI_ANIMATION_DELAY);
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mShowHandler.removeCallbacks(mIntentRunnable);
+        Log.i(LOG_TAG, " pagaTodo: actividad en background " + LOG_TAG);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        mShowHandler.removeCallbacks(mIntentRunnable);
+        Log.i(LOG_TAG, " pagaTodo: presiona back: elimina " + LOG_TAG);
+    }
+
     private final Runnable mIntentRunnable = new Runnable() {
         @SuppressLint("InlinedApi")
         @Override
         public void run() {
-            object.stop();
+            mCallback.start();
         }
     };
 
-    private static class MyIntent{
-
-        interface MyIntentListener{
-            void finishedTime();
+    private final MyIntentListener startActivity = new MyIntentListener() {
+        @Override
+        public void finishedTime() {
+            Intent login = new Intent(mContext, LoginActivity.class);
+            startActivity(login);
+            finish();
         }
-
-        private MyIntentListener listener;
-
-        MyIntent(){
-            this.listener = null;
-        }
-
-        void stop(){
-            if(listener != null){
-                listener.finishedTime();
-            }
-        }
-
-        void setOnStopListener(MyIntentListener listener){
-            this.listener = listener;
-        }
-    }
+    };
 }

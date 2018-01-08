@@ -1,6 +1,6 @@
-package com.example.mauriciogodinez.splashtest;
+package com.example.mauriciogodinez.splashtest.utils;
 
-/**
+/*
  * Created by mauriciogodinez on 19/05/17.
  */
 

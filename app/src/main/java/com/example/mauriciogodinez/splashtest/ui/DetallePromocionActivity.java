@@ -1,10 +1,10 @@
-package com.example.mauriciogodinez.splashtest;
+package com.example.mauriciogodinez.splashtest.ui;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -18,25 +18,35 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.mauriciogodinez.splashtest.R;
+
 public class DetallePromocionActivity extends AppCompatActivity implements View.OnClickListener {
 
     Toast mToast;
+
     FloatingActionButton fab_share;
     FloatingActionButton fab_face, fab_twitter, fab_whats, fab_mail;
+
     CardView cv_face, cv_twitter, cv_whats, cv_mail;
+
     View fuse_view;
 
-    Animation show_button, hide_button, show_card, hide_card;
+    Animation show_button, hide_button;
+    Animation show_card, hide_card;
     Animation rotate_view, rotate2_view;
     Animation show_fab, erase_fab;
 
     private static final int UI_ANIMATION_DELAY = 120;
+    private Context mContext;
+
     private final Handler mShowHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle_promocion);
+
+        mContext = DetallePromocionActivity.this;
 
         Intent getIntent = getIntent();
         Integer drawable = getIntent.getIntExtra("imagen", 0);
@@ -47,9 +57,6 @@ public class DetallePromocionActivity extends AppCompatActivity implements View.
 
         ImageView iv = (ImageView) findViewById(R.id.app_bar_image_view);
         iv.setImageResource(drawable);
-
-//        CollapsingToolbarLayout cp = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-//        cp.setBackgroundResource(drawable);
 
         fuse_view = findViewById(R.id.fuse_view);
 
@@ -65,19 +72,19 @@ public class DetallePromocionActivity extends AppCompatActivity implements View.
         cv_whats = (CardView) findViewById(R.id.cv_whats);
         cv_mail = (CardView) findViewById(R.id.cv_mail);
 
-        goneVisibility();
+        setVisibility(View.GONE);
 
-        show_button = AnimationUtils.loadAnimation(DetallePromocionActivity.this, R.anim.show_button);
-        hide_button = AnimationUtils.loadAnimation(DetallePromocionActivity.this, R.anim.hide_button);
+        show_button = AnimationUtils.loadAnimation(mContext, R.anim.show_button);
+        hide_button = AnimationUtils.loadAnimation(mContext, R.anim.hide_button);
 
-        show_card = AnimationUtils.loadAnimation(DetallePromocionActivity.this, R.anim.show_card);
-        hide_card = AnimationUtils.loadAnimation(DetallePromocionActivity.this, R.anim.hide_card);
+        show_card = AnimationUtils.loadAnimation(mContext, R.anim.show_card);
+        hide_card = AnimationUtils.loadAnimation(mContext, R.anim.hide_card);
 
-        rotate_view = AnimationUtils.loadAnimation(DetallePromocionActivity.this, R.anim.rotate_view);
-        rotate2_view = AnimationUtils.loadAnimation(DetallePromocionActivity.this, R.anim.rotate_2_view);
+        rotate_view = AnimationUtils.loadAnimation(mContext, R.anim.rotate_view);
+        rotate2_view = AnimationUtils.loadAnimation(mContext, R.anim.rotate_2_view);
 
-        erase_fab = AnimationUtils.loadAnimation(DetallePromocionActivity.this, R.anim.erase_fab);
-        show_fab = AnimationUtils.loadAnimation(DetallePromocionActivity.this, R.anim.show_fab);
+        erase_fab = AnimationUtils.loadAnimation(mContext, R.anim.erase_fab);
+        show_fab = AnimationUtils.loadAnimation(mContext, R.anim.show_fab);
 
         fab_face.setOnClickListener(this);
         fab_twitter.setOnClickListener(this);
@@ -91,7 +98,7 @@ public class DetallePromocionActivity extends AppCompatActivity implements View.
         fuse_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goneVisibility();
+                setVisibility(View.GONE);
                 hideAnim();
             }
         });
@@ -100,45 +107,30 @@ public class DetallePromocionActivity extends AppCompatActivity implements View.
             @Override
             public void onClick(View view) {
                 if (fab_face.getVisibility() == View.VISIBLE) {
-                    goneVisibility();
+                    setVisibility(View.GONE);
                     hideAnim();
                 } else {
-                    showVisibility();
+                    setVisibility(View.VISIBLE);
                     showAnim();
                 }
             }
         });
 
         fab_share.startAnimation(show_fab);
-
     }
 
-    private void showVisibility() {
-        fab_face.setVisibility(View.VISIBLE);
-        fab_twitter.setVisibility(View.VISIBLE);
-        fab_whats.setVisibility(View.VISIBLE);
-        fab_mail.setVisibility(View.VISIBLE);
+    private void setVisibility(int visibility){
+        fab_face.setVisibility(visibility);
+        fab_twitter.setVisibility(visibility);
+        fab_whats.setVisibility(visibility);
+        fab_mail.setVisibility(visibility);
 
-        fuse_view.setVisibility(View.VISIBLE);
+        fuse_view.setVisibility(visibility);
 
-        cv_face.setVisibility(View.VISIBLE);
-        cv_twitter.setVisibility(View.VISIBLE);
-        cv_whats.setVisibility(View.VISIBLE);
-        cv_mail.setVisibility(View.VISIBLE);
-    }
-
-    private void goneVisibility() {
-        fab_face.setVisibility(View.GONE);
-        fab_twitter.setVisibility(View.GONE);
-        fab_whats.setVisibility(View.GONE);
-        fab_mail.setVisibility(View.GONE);
-
-        fuse_view.setVisibility(View.GONE);
-
-        cv_face.setVisibility(View.GONE);
-        cv_twitter.setVisibility(View.GONE);
-        cv_whats.setVisibility(View.GONE);
-        cv_mail.setVisibility(View.GONE);
+        cv_face.setVisibility(visibility);
+        cv_twitter.setVisibility(visibility);
+        cv_whats.setVisibility(visibility);
+        cv_mail.setVisibility(visibility);
     }
 
     private void showAnim() {
@@ -152,9 +144,8 @@ public class DetallePromocionActivity extends AppCompatActivity implements View.
         cv_whats.startAnimation(show_card);
         cv_mail.startAnimation(show_card);
 
-        fab_share.setImageDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_add_white));
+        fab_share.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_add_white));
         fab_share.startAnimation(rotate_view);
-
     }
 
     private void hideAnim() {
@@ -177,7 +168,7 @@ public class DetallePromocionActivity extends AppCompatActivity implements View.
         @SuppressLint("InlinedApi")
         @Override
         public void run() {
-            fab_share.setImageDrawable(ContextCompat.getDrawable(getBaseContext(), R.drawable.iconocompartir));
+            fab_share.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.iconocompartir));
         }
     };
 
@@ -216,35 +207,35 @@ public class DetallePromocionActivity extends AppCompatActivity implements View.
         Integer id = v.getId();
         switch (id) {
             case R.id.cv_facebook:
-                mToast = Toast.makeText(getBaseContext(), "face", Toast.LENGTH_SHORT);
+                mToast = Toast.makeText(mContext, "face", Toast.LENGTH_SHORT);
                 mToast.show();
                 break;
             case R.id.fab_facebook:
-                mToast = Toast.makeText(getBaseContext(), "face", Toast.LENGTH_SHORT);
+                mToast = Toast.makeText(mContext, "face", Toast.LENGTH_SHORT);
                 mToast.show();
                 break;
             case R.id.cv_twitter:
-                mToast = Toast.makeText(getBaseContext(), "tuit", Toast.LENGTH_SHORT);
+                mToast = Toast.makeText(mContext, "tuit", Toast.LENGTH_SHORT);
                 mToast.show();
                 break;
             case R.id.fab_twitter:
-                mToast = Toast.makeText(getBaseContext(), "tuit", Toast.LENGTH_SHORT);
+                mToast = Toast.makeText(mContext, "tuit", Toast.LENGTH_SHORT);
                 mToast.show();
                 break;
             case R.id.cv_whats:
-                mToast = Toast.makeText(getBaseContext(), "whats", Toast.LENGTH_SHORT);
+                mToast = Toast.makeText(mContext, "whats", Toast.LENGTH_SHORT);
                 mToast.show();
                 break;
             case R.id.fab_whats_app:
-                mToast = Toast.makeText(getBaseContext(), "whats", Toast.LENGTH_SHORT);
+                mToast = Toast.makeText(mContext, "whats", Toast.LENGTH_SHORT);
                 mToast.show();
                 break;
             case R.id.cv_mail:
-                mToast = Toast.makeText(getBaseContext(), "mail", Toast.LENGTH_SHORT);
+                mToast = Toast.makeText(mContext, "mail", Toast.LENGTH_SHORT);
                 mToast.show();
                 break;
             case R.id.fab_mail:
-                mToast = Toast.makeText(getBaseContext(), "mail", Toast.LENGTH_SHORT);
+                mToast = Toast.makeText(mContext, "mail", Toast.LENGTH_SHORT);
                 mToast.show();
                 break;
             default:
